@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  font-family: "Nunito";
+}
+body {
+  margin: 0;
+  padding: 0;
+  @apply bg-neutral-900 text-neutral-300;
+  scroll-behavior: smooth;
+}
