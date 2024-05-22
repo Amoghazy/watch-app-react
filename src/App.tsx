@@ -13,12 +13,12 @@ function App() {
   useEffect(() => {
     (async () => {
       const res = await axios.get("/trending/all/week?language=en-US");
-      console.log(res.data.results);
+
       dispatch(setDataBanner(res.data.results));
     })();
     (async () => {
       const res = await axios.get("/configuration");
-      console.log(res.data.images.secure_base_url + "original");
+
       dispatch(setBase_urlImage(res.data.images.secure_base_url + "original"));
     })();
   });

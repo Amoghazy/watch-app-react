@@ -13,7 +13,7 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 z-10 w-full h-16 bg-opacity-75 bg-neutral-400">
+    <header className="fixed top-0 z-50 w-full h-16 bg-opacity-75 bg-neutral-400">
       <div className="container flex items-center w-full h-full px-3 ">
         <Link to={"/"}>
           {" "}

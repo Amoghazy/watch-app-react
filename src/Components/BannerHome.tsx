@@ -6,7 +6,7 @@ export default function BannerHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { bannerData } = useSelector((state: Istate) => state.dataBanner);
   const { base_urlImage } = useSelector((state: Istate) => state.base_urlImage);
-  // console.log(setCurrentSlide)
+
   const handelPrevious = () => {
     if (currentSlide > 0) {
       setCurrentSlide(currentSlide - 1);
@@ -17,7 +17,7 @@ export default function BannerHome() {
   };
 
   const handelNext = () => {
-    console.log(currentSlide);
+    
     if (currentSlide < bannerData.length - 1) {
       setCurrentSlide(currentSlide + 1);
     }

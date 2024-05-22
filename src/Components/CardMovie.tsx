@@ -7,21 +7,21 @@ import moment from "moment";
 export default function CardMovie({
   item,
   index,
-  trend,
+  heading,
 }: {
   item: IMovie;
   index: number;
-  trend: boolean;
+  heading: string;
 }) {
   const { base_urlImage } = useSelector((state: Istate) => state.base_urlImage);
-  console.log(index);
+
   return (
     <div className=" w-[230px] relative ">
       <div>
         {" "}
         <img src={base_urlImage + item.poster_path} alt="" />
       </div>
-      {trend && (
+      {heading === "Trending" && (
         <div className="absolute top-0 right-0 p-2 text-xs text-white bg-red-500 rounded-br-xl">
           {` Trend #${index}`}
         </div>
