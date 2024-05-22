@@ -13,7 +13,7 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 z-50 w-full h-16 bg-opacity-75 bg-neutral-400">
+    <header className="fixed top-0 z-50 w-full h-16 bg-black bg-opacity-50">
       <div className="container flex items-center w-full h-full px-3 ">
         <Link to={"/"}>
           {" "}
@@ -24,8 +24,8 @@ export default function Header() {
             return (
               <NavLink
                 className={({ isActive }) =>
-                  `p-2  hover:text-neutral-100 ${
-                    isActive && "text-neutral-100"
+                  `p-2 text-xl text-neutral-500  hover:text-neutral-100 ${
+                    isActive && "!text-white"
                   }`
                 }
                 key={i}

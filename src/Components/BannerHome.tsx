@@ -17,7 +17,6 @@ export default function BannerHome() {
   };
 
   const handelNext = () => {
-    
     if (currentSlide < bannerData.length - 1) {
       setCurrentSlide(currentSlide + 1);
     }
@@ -27,7 +26,7 @@ export default function BannerHome() {
   };
   useEffect(() => {
     const interval = setInterval(() => {
-      handelNext();
+      // handelNext();
     }, 5000);
     return () => clearInterval(interval);
   });
@@ -38,15 +37,16 @@ export default function BannerHome() {
           return (
             <div
               key={i}
-              className="relative min-w-full min-h-[450px] overflow-hidden  lg:min-h-full group"
+              className="relative min-w-full min-h-[450px]  overflow-hidden lg:min-h-full group"
               style={{
                 transform: `translateX(-${currentSlide * 100}%)`,
               }}
             >
-              <div className="w-full h-full">
+              <div className="w-full h-full ">
                 <img
                   src={base_urlImage + item.backdrop_path}
                   alt={item.title}
+                  className="object-cover w-full h-full"
                 />
               </div>
               <div className="absolute top-0 z-40 items-center justify-between hidden w-full h-full my-7 group-hover:lg:flex">
@@ -64,8 +64,8 @@ export default function BannerHome() {
                 </button>
               </div>
               <div className="absolute top-0 w-full h-full bg-gradient-to-t from-neutral-900 to-transparent"></div>
-              <div className="container mx-auto">
-                <div className="absolute bottom-0 z-50 max-w-md px-3 ">
+              <div className="container mx-auto ">
+                <div className="absolute bottom-0 z-50 w-full max-w-md px-3">
                   <h2 className="text-2xl font-bold text-white lg:text-4xl">
                     {" "}
                     {item.title || item.name}

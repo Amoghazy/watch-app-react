@@ -14,12 +14,12 @@ export default function CarouselCards({
   const container = useRef<HTMLDivElement>(null);
   const handelPrevious = () => {
     if (container.current) {
-      container.current.scrollLeft -= container.current.offsetWidth;
+      container.current.scrollLeft -= 250;
     }
   };
   const handelNext = () => {
     if (container.current) {
-      container.current.scrollLeft += container.current.offsetWidth;
+      container.current.scrollLeft += 250;
     }
   };
   return (
