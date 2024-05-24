@@ -2,11 +2,12 @@ import { useSelector } from "react-redux";
 import Istate from "../Types/ISTATE.ts";
 import { useEffect, useState } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 export default function BannerHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { bannerData } = useSelector((state: Istate) => state.dataBanner);
   const { base_urlImage } = useSelector((state: Istate) => state.base_urlImage);
-
+  const navigate = useNavigate();
   const handelPrevious = () => {
     if (currentSlide > 0) {
       setCurrentSlide(currentSlide - 1);
@@ -78,7 +79,10 @@ export default function BannerHome() {
                     <p className="font-bold">|</p>
                     <p>View: {+item.popularity.toFixed(0)}</p>
                   </div>
-                  <button className="p-2 px-4 my-4 font-bold text-black transition-all bg-white rounded hover:scale-105 hover:bg-gradient-to-tr from-orange-400 to-red-700">
+                  <button
+                    onClick={() => navigate(`/${item.media_type}/${item.id}`)}
+                    className="p-2 px-4 my-4 font-bold text-black transition-all bg-white rounded hover:scale-105 hover:bg-gradient-to-tr from-orange-400 to-red-700"
+                  >
                     Play Now
                   </button>
                 </div>
