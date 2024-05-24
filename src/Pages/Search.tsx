@@ -4,6 +4,7 @@ import CardMovie from "../Components/CardMovie";
 import IMovie from "../Types/IMovie";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import { Helmet } from "react-helmet-async";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -45,29 +46,37 @@ export default function Search() {
       console.log(error);
     }
   }, [userSearch]);
-  // if (!userSearch) return null;
   return (
-    <div className="pt-16">
-      <div className="container mx-auto my-5 lg:hidden">
-        <input
-          value={userSearch}
-          type="text"
-          className="w-full p-2 mx-2 rounded-lg text-neutral-700"
-          onChange={(e) => navigate(`/search?q=${e.target.value}`)}
-          placeholder="search "
-        />
-      </div>
-      <div className="container mx-auto my-5">
-        <h2 className="px-3 my-5 text-lg font-bold lg:text-2xl ">
-          {" "}
-          Search Results
-        </h2>
-        <div className="grid justify-center lg:justify-normal grid-cols-[repeat(auto-fit,230px)] gap-3">
-          {data.map((item: IMovie) => (
-            <CardMovie key={item.id + Math.random() + Date.now()} item={item} />
-          ))}
+    <>
+      <Helmet>
+        <title>Search Page</title>
+        <meta name="description" content=" watch app search page" />
+      </Helmet>
+      <div className="pt-16">
+        <div className="container mx-auto my-5 lg:hidden">
+          <input
+            value={userSearch}
+            type="text"
+            className="w-full p-2 mx-2 rounded-lg text-neutral-700"
+            onChange={(e) => navigate(`/search?q=${e.target.value}`)}
+            placeholder="search "
+          />
+        </div>
+        <div className="container mx-auto my-5">
+          <h2 className="px-3 my-5 text-lg font-bold lg:text-2xl ">
+            {" "}
+            Search Results
+          </h2>
+          <div className="grid justify-center lg:justify-normal grid-cols-[repeat(auto-fit,230px)] gap-3">
+            {data.map((item: IMovie) => (
+              <CardMovie
+                key={item.id + Math.random() + Date.now()}
+                item={item}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
