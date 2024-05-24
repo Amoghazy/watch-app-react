@@ -50,6 +50,7 @@ export default function Search() {
     <div className="pt-16">
       <div className="container mx-auto my-5 lg:hidden">
         <input
+          value={userSearch}
           type="text"
           className="w-full p-2 mx-2 rounded-lg text-neutral-700"
           onChange={(e) => navigate(`/search?q=${e.target.value}`)}

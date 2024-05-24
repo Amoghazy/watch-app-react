@@ -8,20 +8,28 @@ import useFetchCridets from "../hooks/useFetchCridets";
 import "../App.css";
 import useFetch from "../hooks/useFetch";
 import CarouselCards from "../Components/CarouselCards";
+import { useState } from "react";
+import VideoPlay from "../Components/VideoPlay";
+import IMovie from "../Types/IMovie";
 export default function Details() {
+  const [openVideo, setOpenVideo] = useState(false);
+  const [videoID, setVideoID] = useState(0);
   const { id, explore } = useParams();
   const { data } = useFetchDetails(`/${explore}/${id}`);
+  console.log(data);
   const { data: credits } = useFetchCridets(`/${explore}/${id}/credits`);
   const { base_urlImage } = useSelector((state: Istate) => state.base_urlImage);
   const { data: similar } = useFetch(`/${explore}/${id}/similar`);
   const { data: recommendations } = useFetch(
     `/${explore}/${id}/recommendations`
   );
-  console.log(credits);
   const filterDirectors = credits?.crew?.filter(
     (person) => person.known_for_department === "Directing"
   );
-
+  const handelOpenVideo = (data: IMovie) => {
+    setOpenVideo(true);
+    setVideoID(data.id);
+  };
   return (
     <div>
       <div className="w-full max-h-[380px] overflow-hidden relative hidden lg:block">
@@ -39,9 +47,15 @@ export default function Details() {
             alt={data?.title}
             className="shadow-sm rounded-xl"
           />
+          <button
+            onClick={() => handelOpenVideo(data)}
+            className="w-full p-3 my-4 text-xl font-bold text-black transition-all bg-white rounded hover:scale-105 hover:bg-gradient-to-tr from-orange-400 to-red-700"
+          >
+            Play Now
+          </button>
         </div>
-        <div className="w-full my-2">
-          <h1 className="text-4xl font-bold">{data?.title}</h1>
+        <div className="w-full px-2 my-2">
+          <h1 className="text-4xl font-bold">{data?.title || data?.name}</h1>
           <p className="text-sm text-neutral-500">{data?.tagline}</p>
           <Diveder />
           <div className="flex items-center gap-2">
@@ -51,7 +65,15 @@ export default function Details() {
 
             <h2 className="text-lg"> Votes : {data?.vote_count} |</h2>
 
-            <h2 className="text-lg"> Duration : {data?.runtime} m </h2>
+            {explore === "movie" ? (
+              <h2 className="text-lg"> Duration : {data?.runtime} m </h2>
+            ) : (
+              <h2 className="text-lg">
+                {" "}
+                Seasons : {data?.number_of_seasons} | Episodes :{" "}
+                {data?.number_of_episodes}{" "}
+              </h2>
+            )}
           </div>
           <Diveder />
 
@@ -142,6 +164,13 @@ export default function Details() {
         heading={"Recommendation"}
         media_type={`${explore}`}
       />
+      {openVideo && (
+        <VideoPlay
+          media_type={explore}
+          videoID={videoID}
+          close={() => setOpenVideo(false)}
+        />
+      )}
     </div>
   );
 }

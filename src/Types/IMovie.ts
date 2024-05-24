@@ -20,5 +20,7 @@ interface IMovie {
   runtime: number;
   genres: { id: number; name: string }[];
   production_companies: { id: number; name: string }[];
+  number_of_episodes: number;
+  number_of_seasons: number;
 }
 export default IMovie;
