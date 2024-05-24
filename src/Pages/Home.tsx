@@ -17,14 +17,31 @@ export default function Home() {
     <div className="">
       <BannerHome />
       <CarouselCards data={bannerData} heading={"Trending"} />
-      <CarouselCards data={nowplayingData} heading={"Now Playing"} />
-      <CarouselCards data={topRatedData} heading={"Top Rated"} />
-      <CarouselCards data={popularityData} heading={"Popular Movies"} />
+      <CarouselCards
+        data={nowplayingData}
+        heading={"Now Playing"}
+        media_type="movie"
+      />
+      <CarouselCards
+        data={topRatedData}
+        heading={"Top Rated"}
+        media_type="movie"
+      />
+      <CarouselCards
+        data={popularityData}
+        heading={"Popular Movies"}
+        media_type="movie"
+      />
       <CarouselCards
         data={popularityTvShowsData}
         heading={"Popular TV Shows"}
+        media_type="tv"
       />
-      <CarouselCards data={onTheAirData} heading={"ON The Air"} />
+      <CarouselCards
+        data={onTheAirData}
+        heading={"ON The Air"}
+        media_type="tv"
+      />
     </div>
   );
 }

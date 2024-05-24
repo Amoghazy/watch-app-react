@@ -26,7 +26,7 @@ export default function BannerHome() {
   };
   useEffect(() => {
     const interval = setInterval(() => {
-      // handelNext();
+      handelNext();
     }, 5000);
     return () => clearInterval(interval);
   });

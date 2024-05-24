@@ -15,5 +15,10 @@ interface IMovie {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  tagline: string;
+  revenue: number;
+  runtime: number;
+  genres: { id: number; name: string }[];
+  production_companies: { id: number; name: string }[];
 }
 export default IMovie;

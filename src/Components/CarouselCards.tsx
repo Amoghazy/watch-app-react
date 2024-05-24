@@ -7,9 +7,11 @@ import { useRef } from "react";
 export default function CarouselCards({
   data,
   heading,
+  media_type,
 }: {
   data: IMovie[];
   heading: string;
+  media_type?: string;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const handelPrevious = () => {
@@ -24,7 +26,9 @@ export default function CarouselCards({
   };
   return (
     <div className="my-24 ">
-      <h1 className="px-3 my-6 text-2xl font-bold lg:text-4xl">{heading}</h1>
+      <h1 className="px-3 my-6 text-2xl font-bold capitalize lg:text-4xl">
+        {heading}
+      </h1>
       <div className="relative">
         <div
           ref={container}
@@ -32,9 +36,13 @@ export default function CarouselCards({
         >
           {" "}
           {data.map((item, index) => (
-            <div key={item.id} className="w-full h-full">
-              <CardMovie item={item} index={index + 1} heading={heading} />
-            </div>
+            <CardMovie
+              key={item.id}
+              item={item}
+              index={index + 1}
+              heading={heading}
+              media_type={media_type}
+            />
           ))}{" "}
         </div>
 

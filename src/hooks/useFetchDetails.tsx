@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import IMovie from "../Types/IMovie";
 
-const useFetch = (url: string) => {
-  const [data, setData] = useState([]);
+const useFetchDetails = (url: string) => {
+  const [data, setData] = useState({} as IMovie);
   const [isPending, setIsPending] = useState(true);
   useEffect(() => {
     (async () => {
@@ -10,7 +11,7 @@ const useFetch = (url: string) => {
         setIsPending(true);
         const res = await axios.get(url);
 
-        setData(res.data.results );
+        setData(res.data);
         setIsPending(false);
       } catch (error) {
         console.log(error);
@@ -20,4 +21,4 @@ const useFetch = (url: string) => {
 
   return { data, isPending };
 };
-export default useFetch;
+export default useFetchDetails;

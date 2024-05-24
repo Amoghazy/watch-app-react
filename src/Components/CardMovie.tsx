@@ -3,23 +3,35 @@ import { useSelector } from "react-redux";
 import Istate from "../Types/ISTATE";
 import IMovie from "../Types/IMovie";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 export default function CardMovie({
   item,
   index,
   heading,
+  media_type,
 }: {
   item: IMovie;
-  index: number;
-  heading: string;
+  index?: number;
+  heading?: string;
+  media_type?: string;
 }) {
   const { base_urlImage } = useSelector((state: Istate) => state.base_urlImage);
-
+  if (item.media_type == "person") return null;
   return (
-    <div className=" w-[230px] relative ">
-      <div>
+    <Link
+      to={`/${item.media_type || media_type}/${item.id}`}
+      className=" w-[230px] relative hover:scale-105 transition-all"
+    >
+      <div className="h-full">
         {" "}
-        <img src={base_urlImage + item.poster_path} alt="" />
+        {item.poster_path ? (
+          <img src={base_urlImage + item.poster_path} alt="" />
+        ) : (
+          <div className="flex items-center justify-center h-full font-semibold">
+            Not found Poster
+          </div>
+        )}
       </div>
       {heading === "Trending" && (
         <div className="absolute top-0 right-0 p-2 text-xs text-white bg-red-500 rounded-br-xl">
@@ -39,6 +51,6 @@ export default function CardMovie({
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

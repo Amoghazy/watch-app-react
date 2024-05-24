@@ -1,17 +1,34 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo-no-background.svg";
 import { FaUserCircle } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { navigation } from "../navigation";
 
 export default function Header() {
-  const [searchInput, setSearchInput] = useState<string>();
+  const { search } = useLocation();
 
+  const [searchInput, setSearchInput] = useState<string>(
+    search?.split("=")[1]?.replace(/%20/g, " ") || ""
+  );
+  console.log(searchInput);
+  const navigate = useNavigate();
   function handelSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
   }
-
+  useEffect(() => {
+    if (searchInput) {
+      navigate(`/search?q=${searchInput}`);
+    }
+  }, [searchInput, navigate]);
+  useEffect(() => {
+    setSearchInput(search?.split("=")[1]?.replace(/%20/g, " ") || "");
+  }, [search]);
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
+      e.currentTarget.blur();
+    }
+  };
   return (
     <header className="fixed top-0 z-50 w-full h-16 bg-black bg-opacity-50">
       <div className="container flex items-center w-full h-full px-3 ">
@@ -40,8 +57,15 @@ export default function Header() {
           <div className="">
             <form className="flex items-center gap-2 " onSubmit={handelSubmit}>
               <input
+                onKeyDown={handleKeyPress}
                 value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
+                onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  console.log(e.currentTarget.value);
+                  setSearchInput(e.currentTarget.value);
+                }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setSearchInput(e.currentTarget.value);
+                }}
                 type="text"
                 placeholder="Search for watch"
                 className="hidden p-1 text-white bg-transparent border-gray-400 rounded outline-none focus:border lg:block"

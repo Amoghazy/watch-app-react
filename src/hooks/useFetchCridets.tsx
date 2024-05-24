@@ -1,16 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import credits from "../Types/credits";
 
-const useFetch = (url: string) => {
-  const [data, setData] = useState([]);
+const useFetchCridets = (url: string) => {
+  const [data, setData] = useState({} as credits);
   const [isPending, setIsPending] = useState(true);
   useEffect(() => {
     (async () => {
       try {
         setIsPending(true);
         const res = await axios.get(url);
-
-        setData(res.data.results );
+        setData(res.data);
         setIsPending(false);
       } catch (error) {
         console.log(error);
@@ -20,4 +20,4 @@ const useFetch = (url: string) => {
 
   return { data, isPending };
 };
-export default useFetch;
+export default useFetchCridets;

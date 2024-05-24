@@ -7,9 +7,9 @@ export default function Layout() {
   return (
     <>
       <Header />
-
-      <Outlet />
-
+      <div className="min-h-[90vh]">
+        <Outlet />
+      </div>
       <Footer />
       <MobileNavigation />
     </>

@@ -3,7 +3,7 @@ import { mobileNavigation } from "../navigation";
 
 export default function MobileNavigation() {
   return (
-    <section className="fixed bottom-0 w-full h-16 lg:hidden bg-neutral-700">
+    <section className="fixed bottom-0 z-50 w-full h-16 bg-opacity-70 backdrop-blur-3xl lg:hidden bg-neutral-700">
       {" "}
       <div className="flex justify-around h-full text-neutral-400">
         {mobileNavigation.map((nav, i) => {
