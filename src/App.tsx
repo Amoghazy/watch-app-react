@@ -11,17 +11,21 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      const res = await axios.get("/trending/all/week?language=en-US");
+    const fetchData = async () => {
+      const [trendingRes, configRes] = await Promise.all([
+        axios.get("/trending/all/week?language=en-US"),
+        axios.get("/configuration"),
+      ]);
 
-      dispatch(setDataBanner(res.data.results));
-    })();
-    (async () => {
-      const res = await axios.get("/configuration");
+      dispatch(setDataBanner(trendingRes.data.results));
+      dispatch(
+        setBase_urlImage(configRes.data.images.secure_base_url + "original")
+      );
+    };
 
-      dispatch(setBase_urlImage(res.data.images.secure_base_url + "original"));
-    })();
-  });
+    fetchData();
+  }, [dispatch]);
+
   return <RouterProvider router={router}></RouterProvider>;
 }
 
