@@ -5,6 +5,7 @@ import IMovie from "../Types/IMovie";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
+import { debounce } from "lodash";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -18,14 +19,17 @@ export default function Search() {
     `search/multi?query=${userSearch ?? ""}&page=${page}`
   );
 
-  const handleScroll = useCallback(() => {
-    if (
-      window.innerHeight + window.scrollY + 1 >= document.body.offsetHeight &&
-      page <= totalPages
-    ) {
-      setPage((prev) => prev + 1);
-    }
-  }, [page, totalPages]);
+  const handleScroll = useCallback(
+    debounce(() => {
+      if (
+        window.innerHeight + window.scrollY + 1 >= document.body.offsetHeight &&
+        page < totalPages
+      ) {
+        setPage((prev) => prev + 1);
+      }
+    }, 1000), 
+    [page, totalPages]
+  );
   useEffect(() => {
     setData((prev) => [...prev, ...searchData]);
   }, [searchData]);
@@ -36,15 +40,18 @@ export default function Search() {
     };
   }, [handleScroll]);
   useEffect(() => {
+    const fetchTotalPages = async () => {
+      try {
+        const res = await axios.get(`/search/multi?query=${userSearch}`);
+        setTotalPages(res.data.total_pages);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     setData([]);
     setPage(1);
-    try {
-      axios.get(`/search/multi?query=${userSearch}`).then((res) => {
-        setTotalPages(res.data.total_pages);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    fetchTotalPages();
   }, [userSearch]);
   return (
     <>

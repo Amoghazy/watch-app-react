@@ -8,10 +8,11 @@ import useFetchCridets from "../hooks/useFetchCridets";
 import "../App.css";
 import useFetch from "../hooks/useFetch";
 import CarouselCards from "../Components/CarouselCards";
-import { useState } from "react";
-import VideoPlay from "../Components/VideoPlay";
+import { Suspense, lazy, useState } from "react";
 import IMovie from "../Types/IMovie";
 import { Helmet } from "react-helmet-async";
+import Spinner from "../Components/Spinner";
+
 export default function Details() {
   const [openVideo, setOpenVideo] = useState(false);
   const [videoID, setVideoID] = useState(0);
@@ -24,6 +25,7 @@ export default function Details() {
   const { data: recommendations } = useFetch(
     `/${explore}/${id}/recommendations`
   );
+  const VideoPlayLazy = lazy(() => import("../Components/VideoPlay"));
   const filterDirectors = credits?.crew?.filter(
     (person) => person.known_for_department === "Directing"
   );
@@ -171,11 +173,13 @@ export default function Details() {
           media_type={`${explore}`}
         />
         {openVideo && (
-          <VideoPlay
-            media_type={explore}
-            videoID={videoID}
-            close={() => setOpenVideo(false)}
-          />
+          <Suspense fallback={<Spinner />}>
+            <VideoPlayLazy
+              media_type={explore}
+              videoID={videoID}
+              close={() => setOpenVideo(false)}
+            />
+          </Suspense>
         )}
       </div>
     </>

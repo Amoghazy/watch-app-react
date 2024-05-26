@@ -2,8 +2,9 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo-no-background.svg";
 import { FaUserCircle } from "react-icons/fa";
 import { BiSearch } from "react-icons/bi";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { navigation } from "../navigation";
+import { debounce } from "lodash";
 
 export default function Header() {
   const { search } = useLocation();
@@ -16,11 +17,25 @@ export default function Header() {
   function handelSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
   }
+
+  const debouncedNavigate = useMemo(
+    () =>
+      debounce((input) => {
+        if (input) {
+          navigate(`/search?q=${input}`);
+        }
+      }, 500),
+    [navigate]
+  );
+  console.log(debouncedNavigate, "debouncedNavigate");
+
   useEffect(() => {
-    if (searchInput) {
-      navigate(`/search?q=${searchInput}`);
-    }
-  }, [searchInput, navigate]);
+    debouncedNavigate(searchInput);
+    // Cleanup the debounce on component unmount
+    return () => {
+      debouncedNavigate.cancel();
+    };
+  }, [searchInput, debouncedNavigate]);
   useEffect(() => {
     setSearchInput(search?.split("=")[1]?.replace(/%20/g, " ") || "");
   }, [search]);
@@ -60,7 +75,6 @@ export default function Header() {
                 onKeyDown={handleKeyPress}
                 value={searchInput}
                 onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                  console.log(e.currentTarget.value);
                   setSearchInput(e.currentTarget.value);
                 }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
