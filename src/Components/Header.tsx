@@ -12,26 +12,34 @@ export default function Header() {
   const [searchInput, setSearchInput] = useState<string>(
     search?.split("=")[1]?.replace(/%20/g, " ") || ""
   );
-  console.log(searchInput);
+
   const navigate = useNavigate();
   function handelSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
   }
-
-  const debouncedNavigate = useMemo(
-    () =>
-      debounce((input) => {
-        if (input) {
-          navigate(`/search?q=${input}`);
-        }
-      }, 500),
-    [navigate]
-  );
-  console.log(debouncedNavigate, "debouncedNavigate");
+  {
+    /*
+When the debounced function is called again before the previous delay has expired, 
+the previous call is canceled, and the timer restarts.
+ This ensures that only the latest call is executed after the specified delay.
+*/
+  }
+  const debouncedNavigate = useMemo(() => {
+    console.log("inside debounce");
+    return debounce((input) => {
+      console.log(input);
+      if (input) {
+        navigate(`/search?q=${input}`);
+      }
+    }, 500);
+  }, [navigate]);
 
   useEffect(() => {
+    //The previous debounce timer for previous input is canceled automatically by the debounce function
+    // if a new input is provided before the timer expires and the new timer is started .
+    //all that is done auto by the debounce function
     debouncedNavigate(searchInput);
-    // Cleanup the debounce on component unmount
+
     return () => {
       debouncedNavigate.cancel();
     };
